@@ -1,4 +1,4 @@
-import 'package:client_it/domain/app_builder.dart';
+import 'package:client_it/app/domain/app_builder.dart';
 import 'package:flutter/material.dart';
 
 class MainAppBuilder implements AppBuilder {
