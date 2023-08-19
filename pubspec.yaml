@@ -17,6 +17,7 @@ dependencies:
   injectable: ^2.1.2
   get_it: ^7.6.0
   injectable_generator: ^2.1.6
+  dio: ^4.0.6
 
 dev_dependencies:
   flutter_test:
