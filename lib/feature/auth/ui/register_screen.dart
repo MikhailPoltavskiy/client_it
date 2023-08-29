@@ -23,8 +23,12 @@ class RegisterScreen extends StatelessWidget {
         key: formKey,
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30, top: 100),
+            padding: const EdgeInsets.only(
+              left: 30,
+              right: 30,
+            ),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 AppTextField(
                   controller: controllerLogin,

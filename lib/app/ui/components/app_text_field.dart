@@ -14,15 +14,21 @@ class AppTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      obscureText: obscureText,
-      validator: emptyValidator,
-      maxLines: 1,
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: labelText,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+    return PhysicalModel(
+      borderRadius: BorderRadius.circular(16),
+      elevation: 50,
+      color: Colors.white,
+      child: TextFormField(
+        obscureText: obscureText,
+        validator: emptyValidator,
+        maxLines: 1,
+        controller: controller,
+        decoration: InputDecoration(
+          hintText: labelText,
+          // labelText: labelText,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
         ),
       ),
     );
