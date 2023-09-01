@@ -31,8 +31,10 @@ class NetworkAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<UserEntity> signIn(
-      {required String password, required String username}) async {
+  Future<UserEntity> signIn({
+    required String password,
+    required String username,
+  }) async {
     try {
       final response = await dioContainer.dio.post(
         '/auth/token',
@@ -48,12 +50,24 @@ class NetworkAuthRepository implements AuthRepository {
   }
 
   @override
-  Future signUp(
-      {required String password,
-      required String username,
-      required String email}) {
-    // TODO: implement signUp
-    throw UnimplementedError();
+  Future signUp({
+    required String password,
+    required String username,
+    required String email,
+  }) async {
+    try {
+      final response = await dioContainer.dio.put(
+        '/auth/token',
+        data: {
+          'username': username,
+          'password': password,
+          'email': email,
+        },
+      );
+      return UserDto.fromJson(response.data['data']).toEntity();
+    } catch (_) {
+      rethrow;
+    }
   }
 
   @override
