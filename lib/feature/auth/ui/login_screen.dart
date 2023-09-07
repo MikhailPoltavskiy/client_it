@@ -1,5 +1,6 @@
 import 'package:client_it/app/ui/components/app_text_button.dart';
 import 'package:client_it/app/ui/components/app_text_field.dart';
+import 'package:client_it/app/ui/components/container_example.dart';
 import 'package:client_it/feature/auth/domain/auth_state/auth_cubit.dart';
 import 'package:client_it/feature/auth/ui/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,53 +19,60 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('LoginScreen'),
       ),
-      body: Form(
-        key: formKey,
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 30,
-              right: 30,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AppTextField(
-                  controller: controllerLogin,
-                  labelText: 'login',
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                AppTextField(
-                  obscureText: true,
-                  controller: controllerPassword,
-                  labelText: 'password',
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                AppTextButton(
-                  onPressed: () {
-                    if (formKey.currentState?.validate() == true) {
-                      _onTapToSignIn(context.read<AuthCubit>());
-                    }
-                  },
-                  textButton: 'sign in',
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                AppTextButton(
-                  backgroundColor: Colors.blueGrey,
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => RegisterScreen(),
-                    ));
-                  },
-                  textButton: 'sign up',
-                ),
-              ],
+      body: SingleChildScrollView(
+        child: Form(
+          key: formKey,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 30,
+                right: 30,
+                top: 50,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AppTextField(
+                    controller: controllerLogin,
+                    labelText: 'login',
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  AppTextField(
+                    obscureText: true,
+                    controller: controllerPassword,
+                    labelText: 'password',
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  AppTextButton(
+                    onPressed: () {
+                      if (formKey.currentState?.validate() == true) {
+                        _onTapToSignIn(context.read<AuthCubit>());
+                      }
+                    },
+                    textButton: 'sign in',
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  AppTextButton(
+                    backgroundColor: Colors.blueGrey,
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => RegisterScreen(),
+                      ));
+                    },
+                    textButton: 'sign up',
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  ContainerExample(),
+                ],
+              ),
             ),
           ),
         ),
