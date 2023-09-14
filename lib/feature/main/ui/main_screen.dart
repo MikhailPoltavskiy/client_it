@@ -15,12 +15,29 @@ class MainScreen extends StatelessWidget {
         title: const Text('MainScreen'),
         actions: [
           IconButton(
+              onPressed: () => context.read<AuthCubit>().refreshToken(),
+              icon: const Icon(Icons.refresh)),
+          IconButton(
               onPressed: () => context.read<AuthCubit>().logOut(),
               icon: const Icon(Icons.exit_to_app))
         ],
       ),
-      body: Center(
-        child: Text(userEntity.username),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('username: ${userEntity.username}'),
+            const SizedBox(
+              height: 20,
+            ),
+            Text('accessToken: \n${userEntity.accessToken}'),
+            const SizedBox(
+              height: 20,
+            ),
+            Text('refreshToken: \n${userEntity.refreshToken}')
+          ],
+        ),
       ),
     );
   }

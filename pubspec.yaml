@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # TODO обновить пакеты  
   cupertino_icons: ^1.0.2
   sizzle_lints: ^1.0.10
   injectable: ^2.1.2
@@ -27,6 +28,8 @@ dependencies:
   hydrated_bloc: ^8.1.0
   # Получает путь к файловой системе
   path_provider: ^2.0.11
+  # Это интерцептор 
+  pretty_dio_logger: ^1.1.1
 
 dev_dependencies:
   json_serializable: ^6.5.1
