@@ -1,5 +1,6 @@
 import 'package:client_it/feature/auth/domain/auth_state/auth_cubit.dart';
 import 'package:client_it/feature/auth/domain/entities/user_entity/user_entity.dart';
+import 'package:client_it/feature/auth/ui/user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,29 +16,18 @@ class MainScreen extends StatelessWidget {
         title: const Text('MainScreen'),
         actions: [
           IconButton(
-              onPressed: () => context.read<AuthCubit>().refreshToken(),
-              icon: const Icon(Icons.refresh)),
-          IconButton(
-              onPressed: () => context.read<AuthCubit>().logOut(),
-              icon: const Icon(Icons.exit_to_app))
+              onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UserScreen(),
+                    ),
+                  ),
+              icon: const Icon(Icons.account_box)),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('username: ${userEntity.username}'),
-            const SizedBox(
-              height: 20,
-            ),
-            Text('accessToken: \n${userEntity.accessToken}'),
-            const SizedBox(
-              height: 20,
-            ),
-            Text('refreshToken: \n${userEntity.refreshToken}')
-          ],
-        ),
+      body: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [],
       ),
     );
   }
