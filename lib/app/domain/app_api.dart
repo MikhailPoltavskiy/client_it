@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 abstract class AppApi {
   Future<dynamic> signUp({
     required String password,
@@ -27,4 +29,6 @@ abstract class AppApi {
   });
 
   Future<dynamic> request(String path);
+
+  Future<dynamic> fetch(RequestOptions requestOptions);
 }

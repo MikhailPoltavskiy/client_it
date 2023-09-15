@@ -1,3 +1,5 @@
+import 'package:client_it/app/di/init_di.dart';
+import 'package:client_it/app/domain/app_api.dart';
 import 'package:client_it/feature/auth/domain/auth_state/auth_cubit.dart';
 import 'package:client_it/feature/auth/domain/entities/user_entity/user_entity.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +58,11 @@ class UserScreen extends StatelessWidget {
                       child: const Text('Обновить пароль'),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        locator
+                            .get<AppApi>()
+                            .userUpdate(email: 'testtes@email');
+                      },
                       child: const Text('Обновить данные'),
                     ),
                   ],
