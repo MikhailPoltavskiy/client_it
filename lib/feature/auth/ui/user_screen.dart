@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:client_it/app/di/init_di.dart';
 import 'package:client_it/app/domain/app_api.dart';
+import 'package:client_it/app/ui/components/app_text_button.dart';
+import 'package:client_it/app/ui/components/app_text_field.dart';
 import 'package:client_it/feature/auth/domain/auth_state/auth_cubit.dart';
 import 'package:client_it/feature/auth/domain/entities/user_entity/user_entity.dart';
 import 'package:flutter/material.dart';
@@ -59,9 +63,10 @@ class UserScreen extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        locator
-                            .get<AppApi>()
-                            .userUpdate(email: 'testtes@email');
+                        showDialog(
+                          context: context,
+                          builder: (context) => const _UserUpdateDialog(),
+                        );
                       },
                       child: const Text('Обновить данные'),
                     ),
@@ -72,6 +77,52 @@ class UserScreen extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class _UserUpdateDialog extends StatefulWidget {
+  const _UserUpdateDialog({super.key});
+
+  @override
+  State<_UserUpdateDialog> createState() => __UserUpdateDialogState();
+}
+
+class __UserUpdateDialogState extends State<_UserUpdateDialog> {
+  final emailController = TextEditingController();
+  final userController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    userController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              AppTextField(controller: userController, labelText: 'username'),
+              const SizedBox(height: 16),
+              AppTextField(controller: emailController, labelText: 'email'),
+              const SizedBox(height: 16),
+              AppTextButton(
+                  onPressed: () {
+                    context.read<AuthCubit>().userUpdate(
+                          username: userController.text,
+                          email: emailController.text,
+                        );
+                  },
+                  textButton: 'Применить'),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

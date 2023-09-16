@@ -77,6 +77,52 @@ class AuthCubit extends HydratedCubit<AuthState> {
     }
   }
 
+  Future<void> userUpdate({
+    String? username,
+    String? email,
+  }) async {
+    // emit(AuthState.waiting());
+    try {
+      final bool isEmptyEmail = email?.trim().isEmpty == true;
+      final bool isEmptyUsername = username?.trim().isEmpty == true;
+
+      final UserEntity newUserEntity = await authRepository.userUpdate(
+        email: isEmptyEmail ? null : email,
+        username: isEmptyUsername ? null : username,
+      );
+      emit(state.maybeWhen(
+        orElse: () => state,
+        authorized: (userEntity) => AuthState.authorized(userEntity.copyWith(
+          email: newUserEntity.email,
+          username: newUserEntity.username,
+        )),
+      ));
+    } catch (error, st) {
+      addError(error, st);
+    }
+  }
+
+  // Future<void> userUpdate({
+  //   String? username,
+  //   String? email,
+  // }) async {
+  //   try {
+  //     final bool isEmptyEmail = email?.trim().isEmpty == true;
+  //     final bool isEmptyUsername = username?.trim().isEmpty == true;
+
+  //     final UserEntity newUserEntity = await authRepository.userUpdate(
+  //         email: isEmptyEmail ? null : email,
+  //         username: isEmptyUsername ? null : username);
+  //     emit(state.maybeWhen(
+  //       orElse: () => state,
+  //       authorized: (userEntity) => AuthState.authorized(userEntity.copyWith(
+  //           email: newUserEntity.email, username: newUserEntity.username)),
+  //     ));
+  //   } catch (error, st) {
+  //     addError(error, st);
+  //   }
+  // }
+
   @override
   AuthState? fromJson(Map<String, dynamic> json) {
     final state = AuthState.fromJson(json);
