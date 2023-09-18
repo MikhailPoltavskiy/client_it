@@ -1,5 +1,6 @@
 import 'package:client_it/feature/auth/domain/auth_repository.dart';
 import 'package:client_it/feature/auth/domain/entities/user_entity/user_entity.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -69,6 +70,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
   Future<void> getProfile() async {
     emit(AuthState.waiting());
     try {
+      _updateUserState(const AsyncSnapshot.waiting());
       final UserEntity newUserEntity = await authRepository.getProfile();
       emit(state.maybeWhen(
         orElse: () => state,
@@ -77,9 +79,22 @@ class AuthCubit extends HydratedCubit<AuthState> {
           username: newUserEntity.username,
         )),
       ));
-    } catch (error, st) {
-      addError(error, st);
+      _updateUserState(const AsyncSnapshot.withData(
+          ConnectionState.done, 'Успешное получение данных'));
+    } catch (error) {
+      _updateUserState(AsyncSnapshot.withError(ConnectionState.done, error));
     }
+  }
+
+  void _updateUserState(AsyncSnapshot asyncSnapshot) {
+    emit(state.maybeWhen(
+      orElse: () => state,
+      authorized: (userEntity) {
+        return AuthState.authorized(userEntity.copyWith(
+          userState: asyncSnapshot,
+        ));
+      },
+    ));
   }
 
   Future<void> userUpdate({
@@ -88,6 +103,8 @@ class AuthCubit extends HydratedCubit<AuthState> {
   }) async {
     // emit(AuthState.waiting());
     try {
+      _updateUserState(const AsyncSnapshot.waiting());
+      await Future.delayed(const Duration(seconds: 1));
       final bool isEmptyEmail = email?.trim().isEmpty == true;
       final bool isEmptyUsername = username?.trim().isEmpty == true;
 
@@ -102,8 +119,10 @@ class AuthCubit extends HydratedCubit<AuthState> {
           username: newUserEntity.username,
         )),
       ));
-    } catch (error, st) {
-      addError(error, st);
+      _updateUserState(const AsyncSnapshot.withData(
+          ConnectionState.done, 'Успешное обновление данных'));
+    } catch (error) {
+      _updateUserState(AsyncSnapshot.withError(ConnectionState.done, error));
     }
   }
 
