@@ -74,7 +74,13 @@ class UserScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) =>
+                              const _UserUpdatePasswordDialog(),
+                        );
+                      },
                       child: const Text('Обновить пароль'),
                     ),
                     TextButton(
@@ -133,6 +139,56 @@ class __UserUpdateDialogState extends State<_UserUpdateDialog> {
                     context.read<AuthCubit>().userUpdate(
                           username: userController.text,
                           email: emailController.text,
+                        );
+                  },
+                  textButton: 'Применить'),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _UserUpdatePasswordDialog extends StatefulWidget {
+  const _UserUpdatePasswordDialog({super.key});
+
+  @override
+  State<_UserUpdatePasswordDialog> createState() =>
+      __UserUpdatePasswordDialogState();
+}
+
+class __UserUpdatePasswordDialogState extends State<_UserUpdatePasswordDialog> {
+  final newController = TextEditingController();
+  final oldController = TextEditingController();
+
+  @override
+  void dispose() {
+    newController.dispose();
+    oldController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              AppTextField(
+                  controller: oldController, labelText: 'old password'),
+              const SizedBox(height: 16),
+              AppTextField(
+                  controller: newController, labelText: 'new passowrd'),
+              const SizedBox(height: 16),
+              AppTextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    context.read<AuthCubit>().passwordUpdate(
+                          newPassword: newController.text,
+                          oldPassword: oldController.text,
                         );
                   },
                   textButton: 'Применить'),
