@@ -10,7 +10,7 @@ class AuthorEntity with _$AuthorEntity {
     required int id,
   }) = _AuthorEntity;
 
-  /// Generate AuthorEntity class from Map<String, dynamic>
-  factory AuthorEntity.fromJson(Map<String, dynamic> json) =>
+  /// Generate AuthorEntity class from Map<String, Object?>
+  factory AuthorEntity.fromJson(Map<String, Object?> json) =>
       _$AuthorEntityFromJson(json);
 }

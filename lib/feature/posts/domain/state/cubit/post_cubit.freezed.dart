@@ -20,7 +20,7 @@ PostState _$PostStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PostState {
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   AsyncSnapshot<dynamic>? get asyncSnapshot =>
       throw _privateConstructorUsedError;
   List<PostEntity> get postList => throw _privateConstructorUsedError;
@@ -37,7 +37,8 @@ abstract class $PostStateCopyWith<$Res> {
       _$PostStateCopyWithImpl<$Res, PostState>;
   @useResult
   $Res call(
-      {@JsonKey(ignore: true) AsyncSnapshot<dynamic>? asyncSnapshot,
+      {@JsonKey(includeFromJson: false, includeToJson: false)
+      AsyncSnapshot<dynamic>? asyncSnapshot,
       List<PostEntity> postList});
 }
 
@@ -78,7 +79,8 @@ abstract class _$$_PostStateCopyWith<$Res> implements $PostStateCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(ignore: true) AsyncSnapshot<dynamic>? asyncSnapshot,
+      {@JsonKey(includeFromJson: false, includeToJson: false)
+      AsyncSnapshot<dynamic>? asyncSnapshot,
       List<PostEntity> postList});
 }
 
@@ -113,7 +115,8 @@ class __$$_PostStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_PostState implements _PostState {
   const _$_PostState(
-      {@JsonKey(ignore: true) this.asyncSnapshot,
+      {@JsonKey(includeFromJson: false, includeToJson: false)
+      this.asyncSnapshot,
       final List<PostEntity> postList = const []})
       : _postList = postList;
 
@@ -121,7 +124,7 @@ class _$_PostState implements _PostState {
       _$$_PostStateFromJson(json);
 
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   final AsyncSnapshot<dynamic>? asyncSnapshot;
   final List<PostEntity> _postList;
   @override
@@ -168,14 +171,15 @@ class _$_PostState implements _PostState {
 
 abstract class _PostState implements PostState {
   const factory _PostState(
-      {@JsonKey(ignore: true) final AsyncSnapshot<dynamic>? asyncSnapshot,
+      {@JsonKey(includeFromJson: false, includeToJson: false)
+      final AsyncSnapshot<dynamic>? asyncSnapshot,
       final List<PostEntity> postList}) = _$_PostState;
 
   factory _PostState.fromJson(Map<String, dynamic> json) =
       _$_PostState.fromJson;
 
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   AsyncSnapshot<dynamic>? get asyncSnapshot;
   @override
   List<PostEntity> get postList;

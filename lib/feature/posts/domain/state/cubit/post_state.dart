@@ -4,7 +4,8 @@ part of 'post_cubit.dart';
 @freezed
 class PostState with _$PostState {
   const factory PostState({
-    @JsonKey(ignore: true) AsyncSnapshot? asyncSnapshot,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    AsyncSnapshot? asyncSnapshot,
     @Default([]) List<PostEntity> postList,
   }) = _PostState;
 

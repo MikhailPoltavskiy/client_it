@@ -4,6 +4,7 @@ import 'package:client_it/app/ui/components/app_snack_bar.dart';
 import 'package:client_it/app/ui/components/app_text_button.dart';
 import 'package:client_it/app/ui/components/app_text_field.dart';
 import 'package:client_it/feature/auth/domain/auth_state/auth_cubit.dart';
+import 'package:client_it/feature/posts/domain/state/cubit/post_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,6 +21,7 @@ class UserScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
                 context.read<AuthCubit>().logOut();
+                // context.read<PostCubit>().logOut();
               },
               icon: const Icon(Icons.exit_to_app))
         ],

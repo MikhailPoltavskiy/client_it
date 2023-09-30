@@ -15,7 +15,7 @@ class PostEntity with _$PostEntity {
     AuthorEntity? author,
   }) = _PostEntity;
 
-  /// Generate PostEntity class from Map<String, dynamic>
-  factory PostEntity.fromJson(Map<String, dynamic> json) =>
+  /// Generate PostEntity class from Map<String, Object?>
+  factory PostEntity.fromJson(Map<String, Object?> json) =>
       _$PostEntityFromJson(json);
 }

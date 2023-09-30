@@ -12,7 +12,7 @@ class NetPostRepo implements PostRepo {
   Future<Iterable> fetchPosts() async {
     try {
       final response = await api.fetchPosts();
-      return response.data;
+      return response.data['data'];
     } catch (_) {
       rethrow;
     }
