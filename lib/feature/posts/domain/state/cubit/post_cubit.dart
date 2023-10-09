@@ -8,76 +8,86 @@ import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'post_state.dart';
+part 'post_event.dart';
 part 'post_cubit.freezed.dart';
-part 'post_cubit.g.dart';
+// part 'post_cubit.g.dart';
 
-class PostCubit extends HydratedCubit<PostState> {
-  PostCubit(
+class PostBloc extends Bloc<PostEvent, PostState> {
+  PostBloc(
     this.repo,
     this.authCubit,
   ) : super(const PostState(asyncSnapshot: AsyncSnapshot.nothing())) {
     authSub = authCubit.stream.listen((event) {
       event.mapOrNull(
-        authorized: (value) => fetchPosts(),
-        notAuthorized: (value) => logOut(),
+        authorized: (value) => add(PostEvent.fetch()),
+        notAuthorized: (value) => add(PostEvent.logout()),
       );
     });
+
+    on<_PostEventFetch>(fetchPosts);
+    on<_PostEventCreate>(createPost);
+    on<_PostEventLogout>(logOut);
   }
 
   final PostRepo repo;
   final AuthCubit authCubit;
   late final StreamSubscription authSub;
 
-  Future<void> fetchPosts() async {
-    emit(state.copyWith(asyncSnapshot: const AsyncSnapshot.waiting()));
-    await repo.fetchPosts().then((value) {
+  Future<void> fetchPosts(PostEvent event, Emitter emitter) async {
+    emitter(state.copyWith(asyncSnapshot: const AsyncSnapshot.waiting()));
+    await repo.fetchPosts(state.fetchLimit, state.offset).then((value) {
       final Iterable iterable = value;
-      emit(state.copyWith(
+      emitter(state.copyWith(
           postList: iterable.map((e) => PostEntity.fromJson(e)).toList(),
           asyncSnapshot:
               const AsyncSnapshot.withData(ConnectionState.done, true)));
     }).catchError((error) {
-      print('ERROR: ${error}');
+      stateError(error, emitter);
+      // print('ERROR: ${error}');
       // addError(error);
     });
   }
 
-  Future<void> createPost(Map args) async {
-    await repo.createPost(args).then((value) {
-      fetchPosts();
+  Future<void> createPost(PostEvent event, Emitter emitter) async {
+    await repo.createPost((event as _PostEventCreate).args).then((value) {
+      add(PostEvent.fetch());
     }).catchError((error) {
-      print('ERROR: ${error}');
+      stateError(error, emitter);
+      // print('ERROR: ${error}');
       // addError(error);
     });
   }
 
-  void logOut() {
-    emit(state.copyWith(
-      asyncSnapshot: const AsyncSnapshot.nothing(),
-      postList: [],
-    ));
+  void logOut(PostEvent event, Emitter emitter) {
+    emitter(const PostState());
   }
 
-  @override
-  void addError(Object error, [StackTrace? stackTrace]) {
-    emit(state.copyWith(
-        asyncSnapshot: AsyncSnapshot.withError(ConnectionState.done, error)));
-    super.addError(error, stackTrace);
-  }
+  // @override
+  // void addError(Object error, [StackTrace? stackTrace]) {
+  //   emit(state.copyWith(
+  //       asyncSnapshot: AsyncSnapshot.withError(ConnectionState.done, error)));
+  //   super.addError(error, stackTrace);
+  // }
 
-  @override
-  PostState? fromJson(Map<String, Object?> json) {
-    return PostState.fromJson(json);
-  }
+  // @override
+  // PostState? fromJson(Map<String, Object?> json) {
+  //   return PostState.fromJson(json);
+  // }
 
-  @override
-  Map<String, Object?>? toJson(PostState state) {
-    return state.toJson();
-  }
+  // @override
+  // Map<String, Object?>? toJson(PostState state) {
+  //   return state.toJson();
+  // }
 
   @override
   Future<void> close() {
     authSub.cancel();
     return super.close();
+  }
+
+  void stateError(Object error, Emitter emitter) {
+    emitter(state.copyWith(
+        asyncSnapshot: AsyncSnapshot.withError(ConnectionState.done, error)));
+    addError(error);
   }
 }

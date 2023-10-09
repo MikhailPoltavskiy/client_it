@@ -38,7 +38,7 @@ class _DetailPostView extends StatelessWidget {
           IconButton(
               onPressed: () {
                 context.read<DetailPostCubit>().deletePost().then((_) {
-                  context.read<PostCubit>().fetchPosts();
+                  context.read<PostBloc>().add(PostEvent.fetch());
                   Navigator.of(context).pop();
                 });
               },

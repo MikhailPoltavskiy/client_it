@@ -25,10 +25,10 @@ class MainScreen extends StatelessWidget {
                         val1: 'name',
                         val2: 'content',
                         onPressed: ((v1, v2) {
-                          context.read<PostCubit>().createPost({
-                            'name': v1,
-                            'content': v2,
-                          });
+                          context.read<PostBloc>().add(PostEvent.createPost({
+                                'name': v1,
+                                'content': v2,
+                              }));
                         })));
               },
               icon: const Icon(Icons.email)),

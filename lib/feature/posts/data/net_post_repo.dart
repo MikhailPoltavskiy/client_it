@@ -10,9 +10,9 @@ class NetPostRepo implements PostRepo {
   NetPostRepo(this.api);
 
   @override
-  Future<Iterable> fetchPosts() async {
+  Future<Iterable> fetchPosts(int fetchLimit, int offset) async {
     try {
-      final response = await api.fetchPosts();
+      final response = await api.fetchPosts(fetchLimit, offset);
       return response.data['data'];
     } catch (_) {
       rethrow;
