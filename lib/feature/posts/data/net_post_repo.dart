@@ -13,6 +13,9 @@ class NetPostRepo implements PostRepo {
   Future<Iterable> fetchPosts(int fetchLimit, int offset) async {
     try {
       final response = await api.fetchPosts(fetchLimit, offset);
+      if (response.data['data'] is! Iterable) {
+        throw Exception(response.data['message']);
+      }
       return response.data['data'];
     } catch (_) {
       rethrow;

@@ -7,7 +7,7 @@ class PostState with _$PostState {
     @JsonKey(includeFromJson: false, includeToJson: false)
     AsyncSnapshot? asyncSnapshot,
     @Default([]) List<PostEntity> postList,
-    @Default(15) int fetchLimit,
+    @Default(3) int fetchLimit,
     @Default(0) int offset,
   }) = _PostState;
 

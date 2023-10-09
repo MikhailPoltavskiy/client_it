@@ -139,7 +139,7 @@ class _$_PostState implements _PostState {
       {@JsonKey(includeFromJson: false, includeToJson: false)
       this.asyncSnapshot,
       final List<PostEntity> postList = const [],
-      this.fetchLimit = 15,
+      this.fetchLimit = 3,
       this.offset = 0})
       : _postList = postList;
 
