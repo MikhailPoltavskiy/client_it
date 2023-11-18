@@ -1,6 +1,6 @@
 # client_it
 
-A new Flutter project.
+Клиентское приложение, для отображения и редактирования постов.
 
 ## Getting Started
 
